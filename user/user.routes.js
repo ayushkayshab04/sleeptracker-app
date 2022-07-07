@@ -5,7 +5,8 @@ const { authenticate } = require('../middleware/auth');
 const route = express.Router({ mergeParams: true });
 
 route.get('/', authenticate, Controller.getUsers);
-route.get('/:id', Controller.getUserById);
-route.post('/:id', Controller.updateUser);
+route.get('/:id', authenticate, Controller.getUserById);
+route.put('/:id', authenticate, Controller.updateUser);
+route.delete('/:id', authenticate, Controller.deleteUser);
 
 module.exports = route;

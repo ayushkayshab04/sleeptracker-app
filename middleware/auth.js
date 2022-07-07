@@ -1,7 +1,9 @@
+/* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 const jwt = require('jsonwebtoken');
 const { secret_key } = require('../config/index');
 const { mysqlManager } = require('../manager/index');
+const { loginValidation } = require('../validation');
 
 const authenticate = async (req, res, next) => {
   const token = req.header('x-auth-token');
@@ -31,6 +33,7 @@ const userExist = async ({ email, password }) => {
 const generateAuthToken = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    await loginValidation.validateAsync({ email, password });
     const result = await userExist({ email, password });
     if (result === true) {
       const token = await jwt.sign({ email, password }, secret_key);

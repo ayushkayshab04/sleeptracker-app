@@ -1,8 +1,11 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 const { mysqlManager } = require('../manager/index');
 
 const toMili = async (startTime, endTime) => {
   const result = (Date.parse(endTime) - Date.parse(startTime));
+  console.log('==========', typeof (endTime), typeof (startTime));
+  console.log('==========', Date.parse(endTime), Date.parse(startTime));
   return result;
 };
 
@@ -12,7 +15,8 @@ const addReport = async ({ user_id, sleep_duration, sleep_quality }) => {
   (user_id, sleep_duration, sleep_quality)
   VALUES(${user_id}, '${`${sleep_duration}hrs`}', '${sleep_quality}');
   `;
-  console.log('============', user_id, sleep_duration, sleep_quality);
+  console.log('============dataxatda', user_id, sleep_duration, sleep_quality);
+  await conn.execute(query);
 };
 
 const generateReport = async ({ scheduleId }) => {
@@ -22,10 +26,12 @@ const generateReport = async ({ scheduleId }) => {
 `;
   const [[rows]] = await conn.execute(query);
   console.log('=================', rows);
-  const sleep_duration = await toMili(rows.start_time, rows.end_time);
+  const num = await toMili(rows.start_time, rows.end_time) / 3600000;
+  const sleep_duration = +num.toFixed(2);
+
   const { user_id } = rows;
   let sleep_quality;
-  if (sleep_duration >= 8 >= 7) {
+  if (sleep_duration > 7 < 8) {
     sleep_quality = 'Great';
     await addReport({ user_id, sleep_duration, sleep_quality });
   } else if (sleep_quality < 6) {
@@ -37,6 +43,14 @@ const generateReport = async ({ scheduleId }) => {
   }
 };
 
+const getReportById = async ({ id }) => {
+  const conn = await mysqlManager.getConnection();
+  const query = `select * from sleeptracker.sleep_analysis where report_id = ${id}`;
+  const [rows] = await conn.execute(query);
+  return rows;
+};
+
 module.exports = {
   generateReport,
+  getReportById,
 };

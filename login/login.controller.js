@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 const userService = require('./login.service');
+const { userValidation } = require('../validation');
 
 const userRegistration = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ const userRegistration = async (req, res) => {
     console.log('=====', {
       firstName, lastName, email, phoneNo, password,
     });
+    await userValidation.validateAsync(req.body);
     await userService.register({
       firstName, lastName, email, phoneNo, password,
     });
