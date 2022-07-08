@@ -1,10 +1,10 @@
 const express = require('express');
+const { authenticate } = require('../middleware/auth');
 const Controller = require('./analysis.controller');
-// const { authenticate } = require('../middleware/auth');
 
 const route = express.Router({ mergeParams: true });
 
-route.get('/:id', Controller.getReportById);
-route.post('/:id', Controller.generateReport);
+route.get('/:id', authenticate, Controller.getReportById);
+route.post('/:id', authenticate, Controller.generateReport);
 
 module.exports = route;

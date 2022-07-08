@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const userValidation = Joi.object({
   firstName: Joi.string().required(),
-  lastNAme: Joi.string().required(),
+  lastName: Joi.string().required(),
   email: Joi.string().email().required(),
   phoneNo: Joi.string().required(),
   password: Joi.string().required(),
@@ -18,8 +18,9 @@ const loginValidation = Joi.object({
 });
 
 const scheduleValidation = Joi.object({
-  startTime: Joi.date().timestamp().required,
-  endTime: Joi.date().timestamp().required,
+  userId: Joi.number().required(),
+  startTime: Joi.date().required(),
+  endTime: Joi.date().required(),
   interuptions: Joi.number().required(),
 });
 

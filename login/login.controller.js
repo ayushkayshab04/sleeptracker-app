@@ -9,14 +9,11 @@ const userRegistration = async (req, res) => {
     const {
       firstName, lastName, email, phoneNo, password,
     } = req.body;
-    console.log('=====', {
-      firstName, lastName, email, phoneNo, password,
-    });
     await userValidation.validateAsync(req.body);
-    await userService.register({
+    const user = await userService.register({
       firstName, lastName, email, phoneNo, password,
     });
-    res.send('User created sucessfully');
+    res.send(user);
   } catch (err) {
     throw new Error(err);
   }

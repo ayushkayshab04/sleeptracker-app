@@ -1,3 +1,4 @@
+const { idValidation, scheduleValidation } = require('../validation');
 const scheduleService = require('./schedule.service');
 
 const addSchedule = async (req, res) => {
@@ -5,6 +6,8 @@ const addSchedule = async (req, res) => {
     const {
       userId, startTime, endTime, interuptions,
     } = req.body;
+    console.log('=============', req.body);
+    await scheduleValidation.validateAsync(req.body);
     const schedule = await scheduleService.addSchedule({
       userId, startTime, endTime, interuptions,
     });
@@ -17,6 +20,7 @@ const addSchedule = async (req, res) => {
 const getScheduleById = async (req, res) => {
   try {
     const { id } = req.params;
+    await idValidation.validateAsync({ id });
     const user = await scheduleService.getScheduleById({ id });
     res.send(user);
   } catch (error) {
@@ -30,6 +34,8 @@ const updateSchedule = async (req, res) => {
     const {
       userId, startTime, endTime, interuptions,
     } = req.body;
+    await idValidation.validateAsync({ id });
+    await scheduleValidation.validateAsync(req.body);
     const updatedData = await scheduleService.updateSchedule({ id }, {
       userId, startTime, endTime, interuptions,
     });
@@ -42,6 +48,7 @@ const updateSchedule = async (req, res) => {
 const deleteSchedule = async (req, res) => {
   try {
     const { id } = req.params;
+    await idValidation.validateAsync({ id });
     const deletedData = await scheduleService.deleteSchedule({ id });
     res.send(deletedData);
   } catch (error) {

@@ -19,10 +19,10 @@ const addReport = async ({ user_id, sleep_duration, sleep_quality }) => {
   await conn.execute(query);
 };
 
-const generateReport = async ({ scheduleId }) => {
+const generateReport = async ({ id }) => {
   const conn = await mysqlManager.getConnection();
   const query = `SELECT user_id, schedule_id, start_time, end_time, interruption
-  FROM sleeptracker.sleep_schedule where schedule_id = ${scheduleId};
+  FROM sleeptracker.sleep_schedule where schedule_id = ${id};
 `;
   const [[rows]] = await conn.execute(query);
   console.log('=================', rows);

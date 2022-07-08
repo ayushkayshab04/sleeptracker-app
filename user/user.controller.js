@@ -14,7 +14,7 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    await idValidation.validateAsync(id);
+    await idValidation.validateAsync({ id });
     const user = await userService.getUserById({ id });
     res.send(user);
   } catch (error) {
@@ -28,7 +28,7 @@ const updateUser = async (req, res) => {
     const {
       firstName, lastName, email, phoneNo, password,
     } = req.body;
-    await idValidation.validateAsync(id);
+    await idValidation.validateAsync({ id });
     await userValidation.validateAsync(req.body);
     const updatedUser = await userService.updateUser( { id }, {
       firstName, lastName, email, phoneNo, password,
@@ -42,7 +42,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    await idValidation.validateAsync(id);
+    await idValidation.validateAsync({ id });
     await userService.deleteUser({ id });
     res.send('User Deleted sucessFully');
   } catch (error) {
