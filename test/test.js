@@ -76,7 +76,7 @@ describe('user Api', () => {
     describe('DELETE /user/:id', () => {
       it('should DELETE and existing user', (done) => {
         chai.request(app)
-          .delete(`/user/${1}`)
+          .delete(`/user/${2}`)
           .end((err, response) => {
             response.should.have.status(200);
             done();

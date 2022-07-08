@@ -29,10 +29,9 @@ const updateUser = async ({ id }, {
 
 const deleteUser = async ({ id }) => {
   const conn = await mysqlManager.getConnection();
-  const query = `DELETE * FROM sleeptracker.users
+  const query = `DELETE FROM sleeptracker.users
   WHERE user_id=${id};
   `;
-  console.log(query);
   await conn.execute(query);
 };
 
